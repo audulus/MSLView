@@ -57,7 +57,11 @@ public struct MSLView : UIViewRepresentable {
 
 struct MSLView_Previews: PreviewProvider {
 
+    static let shader = """
+        fragment float4 main(FragmentIn input [[stage_in]]) { return float4(0,1,1,1); }
+        """
+
     static var previews: some View {
-        MSLView(shader: "fragment half4() { }", constants: [])
+        MSLView(shader: shader, constants: [])
     }
 }
