@@ -13,7 +13,7 @@ struct ContentView: View {
         struct Constants {
             float r;
         };
-        fragment float4 shader(FragmentIn input [[stage_in]],
+        fragment float4 mainImage(FragmentIn input [[stage_in]],
                                constant Constants& c,
                                constant uint2& viewSize) {
             return float4(c.r,
