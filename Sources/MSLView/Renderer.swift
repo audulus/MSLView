@@ -48,7 +48,7 @@ vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
             let rpd = MTLRenderPipelineDescriptor()
             rpd.vertexFunction = library.makeFunction(name: "__vertex__")
             rpd.fragmentFunction = library.makeFunction(name: "shader")
-            rpd.colorAttachments[0].pixelFormat = .rgba8Unorm
+            rpd.colorAttachments[0].pixelFormat = .bgra8Unorm
 
             pipeline = try device.makeRenderPipelineState(descriptor: rpd)
 
@@ -87,6 +87,10 @@ vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
 
             renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(0, 0, 0, 1)
 
+            let enc = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
+            enc.setRenderPipelineState(pipeline)
+            enc.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4)
+            enc.endEncoding()
 
             commandBuffer.present(currentDrawable)
         }
