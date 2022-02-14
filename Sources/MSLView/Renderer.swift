@@ -1,14 +1,16 @@
 import Foundation
 import MetalKit
 
-class Renderer: NSObject, MTKViewDelegate {
+let MaxBuffers = 3
+
+class Renderer<T>: NSObject, MTKViewDelegate {
 
     var device: MTLDevice!
     var queue: MTLCommandQueue!
     var pipeline: MTLRenderPipelineState!
     var source = ""
+    var constants: T?
 
-    static let MaxBuffers = 3
     private let inflightSemaphore = DispatchSemaphore(value: MaxBuffers)
 
     init(device: MTLDevice) {
