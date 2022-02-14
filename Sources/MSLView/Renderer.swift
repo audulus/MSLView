@@ -9,14 +9,14 @@ class Renderer<T>: NSObject, MTKViewDelegate {
     var queue: MTLCommandQueue!
     var pipeline: MTLRenderPipelineState!
     var source = ""
-    var constants: T?
+    public var constants: T
 
     private let inflightSemaphore = DispatchSemaphore(value: MaxBuffers)
 
-    init(device: MTLDevice) {
+    init(device: MTLDevice, constants: T) {
         self.device = device
         queue = device.makeCommandQueue()
-
+        self.constants = constants
     }
 
     func setShader(source: String) {

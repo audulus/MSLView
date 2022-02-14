@@ -13,11 +13,15 @@ public struct MSLView<T> : NSViewRepresentable {
     }
 
     public class Coordinator {
-        var renderer = Renderer<T>(device: MTLCreateSystemDefaultDevice()!)
+        var renderer: Renderer<T>
+
+        init(constants: T) {
+            renderer = Renderer<T>(device: MTLCreateSystemDefaultDevice()!, constants: constants)
+        }
     }
 
     public func makeCoordinator() -> Coordinator {
-        return Coordinator()
+        return Coordinator(constants: constants)
     }
 
     public func makeNSView(context: Context) -> some NSView {
@@ -45,11 +49,15 @@ public struct MSLView<T> : UIViewRepresentable {
     }
 
     public class Coordinator {
-        var renderer = Renderer<T>(device: MTLCreateSystemDefaultDevice()!)
+        var renderer: Renderer<T>
+
+        init(constants: T) {
+            renderer = Renderer<T>(device: MTLCreateSystemDefaultDevice()!, constants: constants)
+        }
     }
 
     public func makeCoordinator() -> Coordinator {
-        return Coordinator()
+        return Coordinator(constants: constants)
     }
 
     public func makeUIView(context: Context) -> some UIView {
