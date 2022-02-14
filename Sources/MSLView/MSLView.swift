@@ -2,12 +2,12 @@ import SwiftUI
 import MetalKit
 
 #if os(macOS)
-public struct MSLView : NSViewRepresentable {
+public struct MSLView<T> : NSViewRepresentable {
 
     var shader: String
-    var constants: [Any]
+    var constants: T
 
-    public init(shader: String, constants: [Any]) {
+    public init(shader: String, constants: T) {
         self.shader = shader
         self.constants = constants
     }
@@ -34,12 +34,12 @@ public struct MSLView : NSViewRepresentable {
     }
 }
 #else
-public struct MSLView : UIViewRepresentable {
+public struct MSLView<T> : UIViewRepresentable {
 
     var shader: String
-    var constants: [Any]
+    var constants: T
 
-    public init(shader: String, constants: [Any]) {
+    public init(shader: String, constants: T) {
         self.shader = shader
         self.constants = constants
     }
