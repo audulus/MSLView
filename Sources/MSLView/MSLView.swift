@@ -4,6 +4,8 @@ import MetalKit
 #if os(macOS)
 public struct MSLView : NSViewRepresentable {
 
+    var shader: String
+
     public class Coordinator {
         var renderer = Renderer(device: MTLCreateSystemDefaultDevice()!)
     }
@@ -25,6 +27,8 @@ public struct MSLView : NSViewRepresentable {
 }
 #else
 public struct MSLView : UIViewRepresentable {
+
+    var shader: String
 
     public class Coordinator {
         var renderer = Renderer(device: MTLCreateSystemDefaultDevice()!)
@@ -52,6 +56,6 @@ public struct MSLView : UIViewRepresentable {
 struct MSLView_Previews: PreviewProvider {
 
     static var previews: some View {
-        MSLView()
+        MSLView(shader: "fragment half4() { }")
     }
 }
