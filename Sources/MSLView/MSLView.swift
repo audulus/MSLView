@@ -48,3 +48,10 @@ public struct MSLView : UIViewRepresentable {
 
 }
 #endif
+
+struct MSLView_Previews: PreviewProvider {
+
+    static var previews: some View {
+        MSLView()
+    }
+}
