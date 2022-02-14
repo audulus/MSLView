@@ -2,6 +2,10 @@ import SwiftUI
 import MetalKit
 
 #if os(macOS)
+/// Shadertoy-style view. Specify a fragment shader (must be named "mainImage") and a struct of constants
+/// to pass to the shader. In order to ensure the constants struct is consistent with the MSL version, it's
+/// best to include it in a Swift briding header. Constants are bound at position 0, and a uint2 for the view size
+/// is bound at position 1.
 public struct MSLView<T> : NSViewRepresentable {
 
     var shader: String
@@ -39,6 +43,10 @@ public struct MSLView<T> : NSViewRepresentable {
     }
 }
 #else
+/// Shadertoy-style view. Specify a fragment shader (must be named "mainImage") and a struct of constants
+/// to pass to the shader. In order to ensure the constants struct is consistent with the MSL version, it's
+/// best to include it in a Swift briding header. Constants are bound at position 0, and a uint2 for the view size
+/// is bound at position 1.
 public struct MSLView<T> : UIViewRepresentable {
 
     var shader: String
@@ -87,7 +95,7 @@ struct TestView: View {
         struct Constants {
             float r;
         };
-        fragment float4 shader(FragmentIn input [[stage_in]],
+        fragment float4 mainImage(FragmentIn input [[stage_in]],
                                constant Constants& c,
                                constant uint2& viewSize) {
             return float4(c.r,

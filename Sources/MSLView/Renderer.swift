@@ -49,7 +49,7 @@ vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
 
             let rpd = MTLRenderPipelineDescriptor()
             rpd.vertexFunction = library.makeFunction(name: "__vertex__")
-            rpd.fragmentFunction = library.makeFunction(name: "shader")
+            rpd.fragmentFunction = library.makeFunction(name: "mainImage")
             rpd.colorAttachments[0].pixelFormat = .bgra8Unorm
 
             pipeline = try device.makeRenderPipelineState(descriptor: rpd)
