@@ -32,7 +32,7 @@ struct FragmentIn {
     float4 position [[ position ]];
 };
 
-constant float2 pos[4] = { {0,0}, {1,0}, {0,1}, {1,1 } };
+constant float2 pos[4] = { {-1,-1}, {1,-1}, {-1,1}, {1,1 } };
 
 vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
     FragmentIn out;
