@@ -35,6 +35,7 @@ public struct MSLView<T> : NSViewRepresentable {
 
     public func updateNSView(_ nsView: NSViewType, context: Context) {
         context.coordinator.renderer.setShader(source: shader)
+        context.coordinator.renderer.constants = constants
     }
 }
 #else
