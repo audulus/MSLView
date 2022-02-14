@@ -91,8 +91,9 @@ vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
 
             let enc = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor)!
             enc.setRenderPipelineState(pipeline)
+            let c = [constants]
+            enc.setFragmentBytes(c, length: MemoryLayout<T>.size, index: 0)
             enc.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4)
-            enc.setFragmentBytes(&constants, length: MemoryLayout<T>.size, index: 0)
             enc.endEncoding()
 
             commandBuffer.present(currentDrawable)
