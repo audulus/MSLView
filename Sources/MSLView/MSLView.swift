@@ -7,6 +7,11 @@ public struct MSLView : NSViewRepresentable {
     var shader: String
     var constants: [Any]
 
+    public init(shader: String, constants: [Any]) {
+        self.shader = shader
+        self.constants = constants
+    }
+
     public class Coordinator {
         var renderer = Renderer(device: MTLCreateSystemDefaultDevice()!)
     }
@@ -33,6 +38,11 @@ public struct MSLView : UIViewRepresentable {
 
     var shader: String
     var constants: [Any]
+
+    public init(shader: String, constants: [Any]) {
+        self.shader = shader
+        self.constants = constants
+    }
 
     public class Coordinator {
         var renderer = Renderer(device: MTLCreateSystemDefaultDevice()!)
