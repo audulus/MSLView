@@ -6,6 +6,7 @@ class Renderer: NSObject, MTKViewDelegate {
     var device: MTLDevice!
     var queue: MTLCommandQueue!
     var pipeline: MTLRenderPipelineState!
+    var source = ""
 
     static let MaxBuffers = 3
     private let inflightSemaphore = DispatchSemaphore(value: MaxBuffers)
@@ -18,8 +19,22 @@ class Renderer: NSObject, MTKViewDelegate {
 
     func setShader(source: String) {
 
+        if source == self.source {
+            return
+        }
+
+        self.source = source
+
+        let vertex = """
+"struct FragmentIn {
+
+};
+
+vertex FragmentIn __vertex__() { }
+"""
+
         do {
-            let library = try device.makeLibrary(source: source, options: nil)
+            let library = try device.makeLibrary(source: vertex + source, options: nil)
 
             let rpd = MTLRenderPipelineDescriptor()
             rpd.vertexFunction = library.makeFunction(name: "__vertex__")
