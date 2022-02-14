@@ -5,6 +5,7 @@ import MetalKit
 public struct MSLView : NSViewRepresentable {
 
     var shader: String
+    var constants: [Any]
 
     public class Coordinator {
         var renderer = Renderer(device: MTLCreateSystemDefaultDevice()!)
@@ -29,6 +30,7 @@ public struct MSLView : NSViewRepresentable {
 public struct MSLView : UIViewRepresentable {
 
     var shader: String
+    var constants: [Any]
 
     public class Coordinator {
         var renderer = Renderer(device: MTLCreateSystemDefaultDevice()!)
@@ -56,6 +58,6 @@ public struct MSLView : UIViewRepresentable {
 struct MSLView_Previews: PreviewProvider {
 
     static var previews: some View {
-        MSLView(shader: "fragment half4() { }")
+        MSLView(shader: "fragment half4() { }", constants: [])
     }
 }
