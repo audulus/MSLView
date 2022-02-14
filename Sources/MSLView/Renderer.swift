@@ -93,6 +93,8 @@ vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
             enc.setRenderPipelineState(pipeline)
             let c = [constants]
             enc.setFragmentBytes(c, length: MemoryLayout<T>.size, index: 0)
+            var size = SIMD2<Int32>(Int32(view.drawableSize.width), Int32(view.drawableSize.height))
+            enc.setFragmentBytes(&size, length: MemoryLayout<SIMD2<Int32>>.size, index: 1)
             enc.drawPrimitives(type: .triangleStrip, vertexStart: 0, vertexCount: 4)
             enc.endEncoding()
 
