@@ -76,13 +76,32 @@ public struct MSLView<T> : UIViewRepresentable {
 }
 #endif
 
-struct MSLView_Previews: PreviewProvider {
+struct TestConstants {
+    var r: Float
+}
+
+struct TestView: View {
 
     static let shader = """
-        fragment float4 shader(FragmentIn input [[stage_in]]) { return float4(0,1,1,1); }
+        struct Constants {
+            float r;
+        };
+        fragment float4 shader(FragmentIn input [[stage_in]], constant Constants& c) { return float4(c.r,1,1,1); }
         """
 
+    @State var constants = TestConstants(r: 0.0)
+
+    var body: some View {
+        VStack {
+            MSLView(shader: TestView.shader, constants: constants)
+            Slider(value: $constants.r)
+        }
+    }
+}
+
+struct MSLView_Previews: PreviewProvider {
+
     static var previews: some View {
-        MSLView(shader: shader, constants: [])
+        TestView()
     }
 }
