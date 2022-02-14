@@ -20,10 +20,12 @@ public struct MSLView : NSViewRepresentable {
                                 device: MTLCreateSystemDefaultDevice()!)
         metalView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         metalView.delegate = context.coordinator.renderer
+        context.coordinator.renderer.setShader(source: shader)
         return metalView
     }
 
     public func updateNSView(_ nsView: NSViewType, context: Context) {
+        context.coordinator.renderer.setShader(source: shader)
     }
 }
 #else
@@ -45,11 +47,12 @@ public struct MSLView : UIViewRepresentable {
                                 device: MTLCreateSystemDefaultDevice()!)
         metalView.clearColor = MTLClearColorMake(0.0, 0.0, 0.0, 1.0)
         metalView.delegate = context.coordinator.renderer
+        context.coordinator.renderer.setShader(source: shader)
         return metalView
     }
 
     public func updateUIView(_ nsView: UIViewType, context: Context) {
-
+        context.coordinator.renderer.setShader(source: shader)
     }
 
 }
