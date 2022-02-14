@@ -26,11 +26,20 @@ class Renderer: NSObject, MTKViewDelegate {
         self.source = source
 
         let vertex = """
-"struct FragmentIn {
+#include <metal_stdlib>
 
+struct FragmentIn {
+    float4 position [[ position ]];
 };
 
-vertex FragmentIn __vertex__() { }
+constant float2 pos[4] = { {0,0}, {1,0}, {0,1}, {1,1 } };
+
+vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
+    FragmentIn out;
+    out.position = float4(pos[id], 0, 1);
+    return out;
+}
+
 """
 
         do {
@@ -38,7 +47,7 @@ vertex FragmentIn __vertex__() { }
 
             let rpd = MTLRenderPipelineDescriptor()
             rpd.vertexFunction = library.makeFunction(name: "__vertex__")
-            rpd.fragmentFunction = library.makeFunction(name: "main")
+            rpd.fragmentFunction = library.makeFunction(name: "shader")
             rpd.colorAttachments[0].pixelFormat = .rgba8Unorm
 
             pipeline = try device.makeRenderPipelineState(descriptor: rpd)
