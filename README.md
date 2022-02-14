@@ -7,6 +7,8 @@
 SwiftUI view for Shadertoy-style MSL shaders
 
 ```Swift
+import MSLView
+
 struct Constants {
     var r: Float
 }
