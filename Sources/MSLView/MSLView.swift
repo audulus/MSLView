@@ -8,11 +8,15 @@ import MetalKit
 /// is bound at position 1.
 public struct MSLView<T> : NSViewRepresentable {
 
-    var shader: String
+    var shader: String?
     var constants: T
 
     public init(shader: String, constants: T) {
         self.shader = shader
+        self.constants = constants
+    }
+    
+    public init(constants: T) {
         self.constants = constants
     }
 
@@ -34,12 +38,18 @@ public struct MSLView<T> : NSViewRepresentable {
         metalView.enableSetNeedsDisplay = true
         metalView.isPaused = true
         metalView.delegate = context.coordinator.renderer
-        context.coordinator.renderer.setShader(source: shader)
+        if let shader = shader {
+            context.coordinator.renderer.setShader(source: shader)
+        } else {
+            context.coordinator.renderer.setDefaultShader()
+        }
         return metalView
     }
 
     public func updateNSView(_ nsView: NSViewType, context: Context) {
-        context.coordinator.renderer.setShader(source: shader)
+        if let shader = shader {
+            context.coordinator.renderer.setShader(source: shader)
+        }
         context.coordinator.renderer.constants = constants
         nsView.setNeedsDisplay(nsView.bounds)
     }
