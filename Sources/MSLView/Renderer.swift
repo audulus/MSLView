@@ -19,6 +19,24 @@ class Renderer<T>: NSObject, MTKViewDelegate {
         self.constants = constants
     }
 
+    
+    let vertex = """
+#include <metal_stdlib>
+
+struct FragmentIn {
+float4 position [[ position ]];
+};
+
+constant float2 pos[4] = { {-1,-1}, {1,-1}, {-1,1}, {1,1 } };
+
+vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
+FragmentIn out;
+out.position = float4(pos[id], 0, 1);
+return out;
+}
+
+"""
+
     func setShader(source: String) {
 
         if source == self.source {
@@ -26,23 +44,6 @@ class Renderer<T>: NSObject, MTKViewDelegate {
         }
 
         self.source = source
-
-        let vertex = """
-#include <metal_stdlib>
-
-struct FragmentIn {
-    float4 position [[ position ]];
-};
-
-constant float2 pos[4] = { {-1,-1}, {1,-1}, {-1,1}, {1,1 } };
-
-vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
-    FragmentIn out;
-    out.position = float4(pos[id], 0, 1);
-    return out;
-}
-
-"""
 
         do {
             let library = try device.makeLibrary(source: vertex + source, options: nil)
@@ -54,6 +55,22 @@ vertex FragmentIn __vertex__(uint id [[ vertex_id ]]) {
 
             pipeline = try device.makeRenderPipelineState(descriptor: rpd)
 
+        } catch let error {
+            print("Error: \(error)")
+        }
+    }
+    
+    func setDefaultShader() {
+        
+        do {
+            let library = try device.makeLibrary(source: vertex, options: nil)
+            let defaultLibrary = device.makeDefaultLibrary()!
+            let rpd = MTLRenderPipelineDescriptor()
+            rpd.vertexFunction = library.makeFunction(name: "__vertex__")
+            rpd.fragmentFunction = defaultLibrary.makeFunction(name: "mainImage")
+            rpd.colorAttachments[0].pixelFormat = .bgra8Unorm
+
+            pipeline = try device.makeRenderPipelineState(descriptor: rpd)
         } catch let error {
             print("Error: \(error)")
         }
